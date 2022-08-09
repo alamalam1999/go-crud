@@ -22,7 +22,7 @@
 <body>
 
     <div class="container mt-5">
-        <h3>Ubah Data Pasien</h3>
+        <h3>Edit Task</h3>
         <a href="/pasien" class="btn btn-sm btn-primary">Lihat Data</a>
         <hr/>
 
@@ -34,62 +34,39 @@
 
         <form action="/pasien/edit" method="post">
             <div class="form-group">
-                <label for="">Nama Lengkap</label>
-                <input type="text" name="nama_lengkap" value="{{ .pasien.NamaLengkap }}" class="form-control {{ if .validation.NamaLengkap }} is-invalid {{ end }}">
+                <label for="">Task</label>
+                <input type="text" name="task" value="{{ .pasien.Task }}" class="form-control {{ if .validation.Task }} is-invalid {{ end }}">
                 <div class="invalid-feedback">
-                    {{ .validation.NamaLengkap }}
+                    {{ .validation.Task }}
                 </div>
             </div>
             <div class="form-group">
-                <label for="">NIK</label>
-                <input type="text" name="nik" value="{{ .pasien.NIK }}" class="form-control {{ if .validation.NIK }} is-invalid {{ end }}">
+                <label for="">Assignee</label>
+                <input type="text" name="assignee" value="{{ .pasien.Assignee }}" class="form-control {{ if .validation.Assignee }} is-invalid {{ end }}">
                 <div class="invalid-feedback">
-                    {{ .validation.NIK }}
+                    {{ .validation.Assignee }}
                 </div>
             </div>
             <div class="form-group">
-                <label for="">Jenis Kelamin</label>
-                <select name="jenis_kelamin" class="form-control {{ if .validation.JenisKelamin }} is-invalid {{ end }}">
-                    <option value="">Pilih Jenis Kelamin</option>
-                    <option {{ if eq .pasien.JenisKelamin `1` }} selected {{ end }} value="1">Laki-laki</option>
-                    <option {{ if eq .pasien.JenisKelamin `2` }} selected {{ end }} value="2">Perempuan</option>
+                <label for="">Deadline</label>
+                <input type="date" name="deadline" value="{{ .pasien.Deadline }}" class="form-control {{ if .validation.Deadline }} is-invalid {{ end }}">
+                <div class="invalid-feedback">
+                    {{ .validation.Deadline }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="">Action</label>
+                <select name="action" class="form-control {{ if .validation.Action }} is-invalid {{ end }}">
+                    <option {{ if eq .pasien.Action `1` }} selected {{ end }} value="1">Sudah Selesai</option>
+                    <option {{ if eq .pasien.Action `2` }} selected {{ end }} value="2">WIP</option>
                 </select>
                 <div class="invalid-feedback">
-                    {{ .validation.JenisKelamin }}
+                    {{ .validation.Action }}
                 </div>
             </div>
-            <div class="form-group">
-                <label for="">Tempat Lahir</label>
-                <input type="text" name="tempat_lahir" value="{{ .pasien.TempatLahir }}" class="form-control {{ if .validation.TempatLahir }} is-invalid {{ end }}">
-                <div class="invalid-feedback">
-                    {{ .validation.TempatLahir }}
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="">Tanggal Lahir</label>
-                <input type="date" name="tanggal_lahir" value="{{ .pasien.TanggalLahir }}" class="form-control {{ if .validation.TanggalLahir }} is-invalid {{ end }}">
-                <div class="invalid-feedback">
-                    {{ .validation.TanggalLahir }}
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="">Alamat</label>
-                <textarea name="alamat" class="form-control {{ if .validation.Alamat }} is-invalid {{ end }}">{{ .pasien.Alamat }}</textarea>
-                <div class="invalid-feedback">
-                    {{ .validation.Alamat }}
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="">No.HP</label>
-                <input type="text" name="no_hp" value="{{ .pasien.NoHp }}" class="form-control {{ if .validation.NoHp }} is-invalid {{ end }}">
-                <div class="invalid-feedback">
-                    {{ .validation.NoHp }}
-                </div>
-            </div>
-
             <div class="form-group">
                 <input type="hidden" name="id" value="{{ .pasien.Id }}">
-                <button class="btn btn-primary btn-block" type="submit">UBAH DATA</button>
+                <button class="btn btn-primary btn-block" type="submit">SIMPAN</button>
             </div>
         </form>
         

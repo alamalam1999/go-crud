@@ -3,6 +3,8 @@ package models
 import (
 	"database/sql"
 	"fmt"
+	"go-crud-master/config"
+	"go-crud-master/entities"
 	"time"
 )
 
@@ -23,7 +25,7 @@ func NewPasienModel() *PasienModel {
 
 func (p *PasienModel) FindAll() ([]entities.Pasien, error) {
 
-	rows, err := p.conn.Query("select * from pasien")
+	rows, err := p.conn.Query("select * from task")
 	if err != nil {
 		return []entities.Pasien{}, err
 	}
@@ -33,23 +35,20 @@ func (p *PasienModel) FindAll() ([]entities.Pasien, error) {
 	for rows.Next() {
 		var pasien entities.Pasien
 		rows.Scan(&pasien.Id,
-			&pasien.NamaLengkap,
-			&pasien.NIK,
-			&pasien.JenisKelamin,
-			&pasien.TempatLahir,
-			&pasien.TanggalLahir,
-			&pasien.Alamat,
-			&pasien.NoHp)
+			&pasien.Task,
+			&pasien.Assignee,
+			&pasien.Deadline,
+			&pasien.Action)
 
-		if pasien.JenisKelamin == "1" {
-			pasien.JenisKelamin = "Laki-laki"
+		if pasien.Action == "1" {
+			pasien.Action = "Sudah Selesai"
 		} else {
-			pasien.JenisKelamin = "Perempuan"
+			pasien.Action = "WIP"
 		}
 		// 2006-01-02 => yyyy-mm-dd
-		tgl_lahir, _ := time.Parse("2006-01-02", pasien.TanggalLahir)
+		tgl_lahir, _ := time.Parse("2006-01-02", pasien.Deadline)
 		// 02-01-2006 => dd-mm-yyyy
-		pasien.TanggalLahir = tgl_lahir.Format("02-01-2006")
+		pasien.Deadline = tgl_lahir.Format("02-01-2006")
 
 		dataPasien = append(dataPasien, pasien)
 	}
@@ -60,8 +59,8 @@ func (p *PasienModel) FindAll() ([]entities.Pasien, error) {
 
 func (p *PasienModel) Create(pasien entities.Pasien) bool {
 
-	result, err := p.conn.Exec("insert into pasien (nama_lengkap, nik, jenis_kelamin, tempat_lahir, tanggal_lahir, alamat, no_hp) values(?,?,?,?,?,?,?)",
-		pasien.NamaLengkap, pasien.NIK, pasien.JenisKelamin, pasien.TempatLahir, pasien.TanggalLahir, pasien.Alamat, pasien.NoHp)
+	result, err := p.conn.Exec("insert into task (id, task, assignee, deadline, action) values(?,?,?,?,?)",
+		pasien.Id, pasien.Task, pasien.Assignee, pasien.Deadline, pasien.Action)
 
 	if err != nil {
 		fmt.Println(err)
@@ -75,22 +74,19 @@ func (p *PasienModel) Create(pasien entities.Pasien) bool {
 
 func (p *PasienModel) Find(id int64, pasien *entities.Pasien) error {
 
-	return p.conn.QueryRow("select * from pasien where id = ?", id).Scan(
+	return p.conn.QueryRow("select * from task where id = ?", id).Scan(
 		&pasien.Id,
-		&pasien.NamaLengkap,
-		&pasien.NIK,
-		&pasien.JenisKelamin,
-		&pasien.TempatLahir,
-		&pasien.TanggalLahir,
-		&pasien.Alamat,
-		&pasien.NoHp)
+		&pasien.Task,
+		&pasien.Assignee,
+		&pasien.Deadline,
+		&pasien.Action)
 }
 
 func (p *PasienModel) Update(pasien entities.Pasien) error {
 
 	_, err := p.conn.Exec(
-		"update pasien set nama_lengkap = ?, nik = ?, jenis_kelamin = ?, tempat_lahir = ?, tanggal_lahir = ?, alamat = ?, no_hp = ? where id = ?",
-		pasien.NamaLengkap, pasien.NIK, pasien.JenisKelamin, pasien.TempatLahir, pasien.TanggalLahir, pasien.Alamat, pasien.NoHp, pasien.Id)
+		"update task set task = ?, assignee = ?, deadline = ?, action = ? where id = ?",
+		pasien.Task, pasien.Assignee, pasien.Deadline, pasien.Action, pasien.Id)
 
 	if err != nil {
 		return err
@@ -100,5 +96,5 @@ func (p *PasienModel) Update(pasien entities.Pasien) error {
 }
 
 func (p *PasienModel) Delete(id int64) {
-	p.conn.Exec("delete from pasien where id = ?", id)
+	p.conn.Exec("delete from task where id = ?", id)
 }

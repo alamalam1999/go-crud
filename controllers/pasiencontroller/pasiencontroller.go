@@ -1,6 +1,9 @@
 package pasiencontroller
 
 import (
+	"go-crud-master/entities"
+	"go-crud-master/libraries"
+	"go-crud-master/models"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -37,13 +40,11 @@ func Add(response http.ResponseWriter, request *http.Request) {
 		request.ParseForm()
 
 		var pasien entities.Pasien
-		pasien.NamaLengkap = request.Form.Get("nama_lengkap")
-		pasien.NIK = request.Form.Get("nik")
-		pasien.JenisKelamin = request.Form.Get("jenis_kelamin")
-		pasien.TempatLahir = request.Form.Get("tempat_lahir")
-		pasien.TanggalLahir = request.Form.Get("tanggal_lahir")
-		pasien.Alamat = request.Form.Get("alamat")
-		pasien.NoHp = request.Form.Get("no_hp")
+		pasien.Id, _ = strconv.ParseInt(request.Form.Get("id"), 10, 64)
+		pasien.Task = request.Form.Get("task")
+		pasien.Assignee = request.Form.Get("assignee")
+		pasien.Deadline = request.Form.Get("deadline")
+		pasien.Action = request.Form.Get("action")
 
 		var data = make(map[string]interface{})
 
@@ -89,13 +90,10 @@ func Edit(response http.ResponseWriter, request *http.Request) {
 
 		var pasien entities.Pasien
 		pasien.Id, _ = strconv.ParseInt(request.Form.Get("id"), 10, 64)
-		pasien.NamaLengkap = request.Form.Get("nama_lengkap")
-		pasien.NIK = request.Form.Get("nik")
-		pasien.JenisKelamin = request.Form.Get("jenis_kelamin")
-		pasien.TempatLahir = request.Form.Get("tempat_lahir")
-		pasien.TanggalLahir = request.Form.Get("tanggal_lahir")
-		pasien.Alamat = request.Form.Get("alamat")
-		pasien.NoHp = request.Form.Get("no_hp")
+		pasien.Task = request.Form.Get("task")
+		pasien.Assignee = request.Form.Get("assignee")
+		pasien.Deadline = request.Form.Get("deadline")
+		pasien.Action = request.Form.Get("action")
 
 		var data = make(map[string]interface{})
 
@@ -105,7 +103,7 @@ func Edit(response http.ResponseWriter, request *http.Request) {
 			data["pasien"] = pasien
 			data["validation"] = vErrors
 		} else {
-			data["pesan"] = "Data pasien berhasil diperbarui"
+			data["pesan"] = "Data  berhasil diperbarui"
 			pasienModel.Update(pasien)
 		}
 

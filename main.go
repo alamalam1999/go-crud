@@ -1,6 +1,7 @@
 package main
 
 import (
+	"go-crud-master/controllers/pasiencontroller"
 	"net/http"
 )
 
