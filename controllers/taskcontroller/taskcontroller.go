@@ -1,4 +1,4 @@
-package pasiencontroller
+package taskcontroller
 
 import (
 	"go-crud-master/entities"
@@ -10,17 +10,17 @@ import (
 )
 
 var validation = libraries.NewValidation()
-var pasienModel = models.NewPasienModel()
+var taskModel = models.NewTaskModel()
 
 func Index(response http.ResponseWriter, request *http.Request) {
 
-	pasien, _ := pasienModel.FindAll()
+	task, _ := taskModel.FindAll()
 
 	data := map[string]interface{}{
-		"pasien": pasien,
+		"task": task,
 	}
 
-	temp, err := template.ParseFiles("views/pasien/index.html")
+	temp, err := template.ParseFiles("views/task/index.html")
 	if err != nil {
 		panic(err)
 	}
@@ -30,7 +30,7 @@ func Index(response http.ResponseWriter, request *http.Request) {
 func Add(response http.ResponseWriter, request *http.Request) {
 
 	if request.Method == http.MethodGet {
-		temp, err := template.ParseFiles("views/pasien/add.html")
+		temp, err := template.ParseFiles("views/task/add.html")
 		if err != nil {
 			panic(err)
 		}
@@ -39,26 +39,26 @@ func Add(response http.ResponseWriter, request *http.Request) {
 
 		request.ParseForm()
 
-		var pasien entities.Pasien
-		pasien.Id, _ = strconv.ParseInt(request.Form.Get("id"), 10, 64)
-		pasien.Task = request.Form.Get("task")
-		pasien.Assignee = request.Form.Get("assignee")
-		pasien.Deadline = request.Form.Get("deadline")
-		pasien.Action = request.Form.Get("action")
+		var task entities.Task
+		task.Id, _ = strconv.ParseInt(request.Form.Get("id"), 10, 64)
+		task.Task = request.Form.Get("task")
+		task.Assignee = request.Form.Get("assignee")
+		task.Deadline = request.Form.Get("deadline")
+		task.Action = request.Form.Get("action")
 
 		var data = make(map[string]interface{})
 
-		vErrors := validation.Struct(pasien)
+		vErrors := validation.Struct(task)
 
 		if vErrors != nil {
-			data["pasien"] = pasien
+			data["task"] = task
 			data["validation"] = vErrors
 		} else {
-			data["pesan"] = "Data pasien berhasil disimpan"
-			pasienModel.Create(pasien)
+			data["pesan"] = "Data task berhasil disimpan"
+			taskModel.Create(task)
 		}
 
-		temp, _ := template.ParseFiles("views/pasien/add.html")
+		temp, _ := template.ParseFiles("views/task/add.html")
 		temp.Execute(response, data)
 	}
 
@@ -71,14 +71,14 @@ func Edit(response http.ResponseWriter, request *http.Request) {
 		queryString := request.URL.Query()
 		id, _ := strconv.ParseInt(queryString.Get("id"), 10, 64)
 
-		var pasien entities.Pasien
-		pasienModel.Find(id, &pasien)
+		var task entities.Task
+		taskModel.Find(id, &task)
 
 		data := map[string]interface{}{
-			"pasien": pasien,
+			"task": task,
 		}
 
-		temp, err := template.ParseFiles("views/pasien/edit.html")
+		temp, err := template.ParseFiles("views/task/edit.html")
 		if err != nil {
 			panic(err)
 		}
@@ -88,26 +88,26 @@ func Edit(response http.ResponseWriter, request *http.Request) {
 
 		request.ParseForm()
 
-		var pasien entities.Pasien
-		pasien.Id, _ = strconv.ParseInt(request.Form.Get("id"), 10, 64)
-		pasien.Task = request.Form.Get("task")
-		pasien.Assignee = request.Form.Get("assignee")
-		pasien.Deadline = request.Form.Get("deadline")
-		pasien.Action = request.Form.Get("action")
+		var task entities.Task
+		task.Id, _ = strconv.ParseInt(request.Form.Get("id"), 10, 64)
+		task.Task = request.Form.Get("task")
+		task.Assignee = request.Form.Get("assignee")
+		task.Deadline = request.Form.Get("deadline")
+		task.Action = request.Form.Get("action")
 
 		var data = make(map[string]interface{})
 
-		vErrors := validation.Struct(pasien)
+		vErrors := validation.Struct(task)
 
 		if vErrors != nil {
-			data["pasien"] = pasien
+			data["task"] = task
 			data["validation"] = vErrors
 		} else {
 			data["pesan"] = "Data  berhasil diperbarui"
-			pasienModel.Update(pasien)
+			taskModel.Update(task)
 		}
 
-		temp, _ := template.ParseFiles("views/pasien/edit.html")
+		temp, _ := template.ParseFiles("views/task/edit.html")
 		temp.Execute(response, data)
 	}
 
@@ -118,7 +118,7 @@ func Delete(response http.ResponseWriter, request *http.Request) {
 	queryString := request.URL.Query()
 	id, _ := strconv.ParseInt(queryString.Get("id"), 10, 64)
 
-	pasienModel.Delete(id)
+	taskModel.Delete(id)
 
-	http.Redirect(response, request, "/pasien", http.StatusSeeOther)
+	http.Redirect(response, request, "/task", http.StatusSeeOther)
 }

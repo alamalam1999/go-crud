@@ -1,18 +1,18 @@
 package main
 
 import (
-	"go-crud-master/controllers/pasiencontroller"
+	"go-crud-master/controllers/taskcontroller"
 	"net/http"
 )
 
 func main() {
 
-	http.HandleFunc("/", pasiencontroller.Index)
-	http.HandleFunc("/pasien", pasiencontroller.Index)
-	http.HandleFunc("/pasien/index", pasiencontroller.Index)
-	http.HandleFunc("/pasien/add", pasiencontroller.Add)
-	http.HandleFunc("/pasien/edit", pasiencontroller.Edit)
-	http.HandleFunc("/pasien/delete", pasiencontroller.Delete)
+	http.HandleFunc("/", taskcontroller.Index)
+	http.HandleFunc("/task", taskcontroller.Index)
+	http.HandleFunc("/task/index", taskcontroller.Index)
+	http.HandleFunc("/task/add", taskcontroller.Add)
+	http.HandleFunc("/task/edit", taskcontroller.Edit)
+	http.HandleFunc("/task/delete", taskcontroller.Delete)
 
 	http.ListenAndServe(":3000", nil)
 }

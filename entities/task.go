@@ -1,6 +1,6 @@
 package entities
 
-type Pasien struct {
+type Task struct {
 	Id       int64
 	Task     string `validate:"required" label:"Task"`
 	Assignee string `validate:"required" label:"Assignee"`

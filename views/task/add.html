@@ -22,8 +22,8 @@
 <body>
 
     <div class="container mt-5">
-        <h3>Edit Task</h3>
-        <a href="/pasien" class="btn btn-sm btn-primary">Lihat Data</a>
+        <h3>Tambah Task</h3>
+        <a href="/task" class="btn btn-sm btn-primary">Lihat Data</a>
         <hr/>
 
         {{ if .pesan }}
@@ -32,24 +32,24 @@
             </div>
         {{ end }}
 
-        <form action="/pasien/edit" method="post">
+        <form action="/task/add" method="post">
             <div class="form-group">
                 <label for="">Task</label>
-                <input type="text" name="task" value="{{ .pasien.Task }}" class="form-control {{ if .validation.Task }} is-invalid {{ end }}">
+                <input type="text" name="task" value="{{ .task.Task }}" class="form-control {{ if .validation.Task }} is-invalid {{ end }}">
                 <div class="invalid-feedback">
                     {{ .validation.Task }}
                 </div>
             </div>
             <div class="form-group">
                 <label for="">Assignee</label>
-                <input type="text" name="assignee" value="{{ .pasien.Assignee }}" class="form-control {{ if .validation.Assignee }} is-invalid {{ end }}">
+                <input type="text" name="assignee" value="{{ .task.Assignee }}" class="form-control {{ if .validation.Assignee }} is-invalid {{ end }}">
                 <div class="invalid-feedback">
                     {{ .validation.Assignee }}
                 </div>
             </div>
             <div class="form-group">
                 <label for="">Deadline</label>
-                <input type="date" name="deadline" value="{{ .pasien.Deadline }}" class="form-control {{ if .validation.Deadline }} is-invalid {{ end }}">
+                <input type="date" name="deadline" value="{{ .task.Deadline }}" class="form-control {{ if .validation.Deadline }} is-invalid {{ end }}">
                 <div class="invalid-feedback">
                     {{ .validation.Deadline }}
                 </div>
@@ -57,15 +57,14 @@
             <div class="form-group">
                 <label for="">Action</label>
                 <select name="action" class="form-control {{ if .validation.Action }} is-invalid {{ end }}">
-                    <option {{ if eq .pasien.Action `1` }} selected {{ end }} value="1">Sudah Selesai</option>
-                    <option {{ if eq .pasien.Action `2` }} selected {{ end }} value="2">WIP</option>
+                    <option {{ if eq .task.Action `1` }} selected {{ end }} value="1">Sudah Selesai</option>
+                    <option {{ if eq .task.Action `2` }} selected {{ end }} value="2">WIP</option>
                 </select>
                 <div class="invalid-feedback">
                     {{ .validation.Action }}
                 </div>
             </div>
             <div class="form-group">
-                <input type="hidden" name="id" value="{{ .pasien.Id }}">
                 <button class="btn btn-primary btn-block" type="submit">SIMPAN</button>
             </div>
         </form>

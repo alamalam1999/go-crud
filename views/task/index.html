@@ -17,7 +17,7 @@
 
     <div class="container mt-5">
         <h3>TASK</h3>
-        <a href="/pasien/add" class="btn btn-sm btn-primary">Tambah TASK</a>
+        <a href="/task/add" class="btn btn-sm btn-primary">Tambah TASK</a>
         <hr/>
         <table class="table table-sriped table-hover">
             <thead>
@@ -29,15 +29,15 @@
                 </tr>
             </thead>
             <tbody>
-                {{ range .pasien }}
+                {{ range .task }}
                     <tr>
                         <td>{{ .Task }}</td>
                         <td>{{ .Assignee }}</td>
                         <td>{{ .Deadline }}</td>
                         <td>{{ .Action }}</td>
                         <td>
-                            <a href="/pasien/edit?id={{.Id}}" class="btn btn-sm btn-warning">Edit</a>
-                            <a href="/pasien/delete?id={{.Id}}" onclick="return confirm('Aapakah anda yakin ingin menghapus data?')" class="btn btn-sm btn-danger">Hapus</a>
+                            <a href="/task/edit?id={{.Id}}" class="btn btn-sm btn-warning">Edit</a>
+                            <a href="/task/delete?id={{.Id}}" onclick="return confirm('Aapakah anda yakin ingin menghapus data?')" class="btn btn-sm btn-danger">Hapus</a>
                         </td>
                     </tr>
                 {{ end }}
